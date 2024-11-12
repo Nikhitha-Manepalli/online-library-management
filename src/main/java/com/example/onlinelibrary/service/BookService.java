@@ -1,9 +1,9 @@
 package com.example.onlinelibrary.service;
-
+ 
 import java.util.List;
-
+ 
 import com.example.onlinelibrary.entity.Book;
-
+ 
 public interface BookService {
 	Book createBook(Book book);
     List<Book> getAllBooks();
@@ -14,5 +14,5 @@ public interface BookService {
     List<Book> sortBooksByTitle();
     List<Book> sortBooksByPublicationDate();
     List<String> generateAuthorReport();
-
+ 
 }
