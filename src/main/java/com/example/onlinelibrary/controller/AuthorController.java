@@ -2,7 +2,6 @@ package com.example.onlinelibrary.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,42 +18,39 @@ import com.example.onlinelibrary.service.AuthorService;
 @RestController
 @RequestMapping("/api/authors")
 public class AuthorController {
-	 
-	    @Autowired
-	    private AuthorService authorService;
-	 
-	    @PostMapping
-	    public Author createAuthor(@RequestBody Author author) {
-	        return authorService.createAuthor(author);
-	    }
-	 
-	    @GetMapping
-	    public List<Author> getAllAuthors() {
-	        return authorService.getAllAuthors();
-	    }
-	 
-	    @GetMapping("/{id}")
-	    public ResponseEntity<Author> getAuthorById(@PathVariable Long id) {
-	        Author author = authorService.getAuthorById(id);
-	        if (author != null) {
-	            return ResponseEntity.ok(author);
-	        }
-	        return ResponseEntity.notFound().build();
-	    }
-	 
-	    @PutMapping("/{id}")
-	    public ResponseEntity<Author> updateAuthor(@PathVariable Long id, @RequestBody Author authorDetails) {
-	        Author updatedAuthor = authorService.updateAuthor(id, authorDetails);
-	        if (updatedAuthor != null) {
-	            return ResponseEntity.ok(updatedAuthor);
-	        }
-	        return ResponseEntity.notFound().build();
-	    }
-	 
-	    @DeleteMapping("/{id}")
-	    public ResponseEntity<Void> deleteAuthor(@PathVariable Long id) {
-	        authorService.deleteAuthor(id);
-	        return ResponseEntity.noContent().build();
-	    }
-	
+
+    private final AuthorService authorService;
+
+    
+    public AuthorController(AuthorService authorService) {
+        this.authorService = authorService;
+    }
+
+    @PostMapping
+    public Author createAuthor(@RequestBody Author author) {
+        return authorService.createAuthor(author);
+    }
+
+    @GetMapping
+    public List<Author> getAllAuthors() {
+        return authorService.getAllAuthors();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Author> getAuthorById(@PathVariable Long id) {
+        Author author = authorService.getAuthorById(id);
+        return ResponseEntity.ok(author);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Author> updateAuthor(@PathVariable Long id, @RequestBody Author authorDetails) {
+        Author updatedAuthor = authorService.updateAuthor(id, authorDetails);
+        return ResponseEntity.ok(updatedAuthor);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAuthor(@PathVariable Long id) {
+        authorService.deleteAuthor(id);
+        return ResponseEntity.noContent().build();
+    }
 }
