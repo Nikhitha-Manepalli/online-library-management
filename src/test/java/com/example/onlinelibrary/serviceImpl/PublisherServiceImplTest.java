@@ -35,7 +35,7 @@ class PublisherServiceImplTest {
         MockitoAnnotations.openMocks(this);
         publisher = new Publisher();
         publisher.setId(1L);
-        publisher.setName("O'Reilly Media");
+        publisher.setName("Geetha Publisher");
     }
 
     @Test
@@ -45,7 +45,7 @@ class PublisherServiceImplTest {
         Publisher createdPublisher = publisherService.createPublisher(publisher);
 
         assertNotNull(createdPublisher);
-        assertEquals("O'Reilly Media", createdPublisher.getName());
+        assertEquals("Geetha Publisher", createdPublisher.getName());
         verify(publisherRepository, times(1)).save(publisher);
     }
 
@@ -69,7 +69,7 @@ class PublisherServiceImplTest {
 
         assertNotNull(publishers);
         assertEquals(1, publishers.size());
-        assertEquals("O'Reilly Media", publishers.get(0).getName());
+        assertEquals("Geetha Publisher", publishers.get(0).getName());
         verify(publisherRepository, times(1)).findAll();
     }
 
@@ -80,7 +80,7 @@ class PublisherServiceImplTest {
         Publisher foundPublisher = publisherService.getPublisherById(1L);
 
         assertNotNull(foundPublisher);
-        assertEquals("O'Reilly Media", foundPublisher.getName());
+        assertEquals("Geetha Publisher", foundPublisher.getName());
         verify(publisherRepository, times(1)).findById(1L);
     }
 
@@ -99,7 +99,7 @@ class PublisherServiceImplTest {
     @Test
     void updatePublisher_ShouldReturnUpdatedPublisher_WhenExists() {
         Publisher updatedPublisher = new Publisher();
-        updatedPublisher.setName("New Publisher Name");
+        updatedPublisher.setName("The Indian Publisher");
 
         when(publisherRepository.findById(1L)).thenReturn(Optional.of(publisher));
         when(publisherRepository.save(any(Publisher.class))).thenReturn(updatedPublisher);
@@ -107,7 +107,7 @@ class PublisherServiceImplTest {
         Publisher result = publisherService.updatePublisher(1L, updatedPublisher);
 
         assertNotNull(result);
-        assertEquals("New Publisher Name", result.getName());
+        assertEquals("The Indian Publisher", result.getName());
         verify(publisherRepository, times(1)).findById(1L);
         verify(publisherRepository, times(1)).save(any(Publisher.class));
     }

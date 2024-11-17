@@ -41,7 +41,7 @@ class BookServiceImplTest {
         book.setId(1L);
         book.setTitle("Effective Java");
         book.setPublicationDate(new Date());
-        // Assuming Author and Publisher are set properly as well
+        
     }
 
     @Test
@@ -202,7 +202,7 @@ class BookServiceImplTest {
 
     @Test
     void sortBooksByPublicationDate_ShouldReturnSortedBooks() {
-        // Assuming books have different publication dates
+        
         Book book2 = new Book();
         book2.setTitle("Java Concurrency in Practice");
         book2.setPublicationDate(new Date(System.currentTimeMillis() - 1000000)); // earlier date
@@ -220,21 +220,19 @@ class BookServiceImplTest {
 
     @Test
     void generateAuthorReport_ShouldReturnReport() {
-        // Create an Author object and set it to the book
-        Author author = new Author();
-        author.setName("John Doe");
         
-        book.setAuthor(author); // Set the author to the book
+        Author author = new Author();
+        author.setName("Nikhitha");
+        
+        book.setAuthor(author); 
 
-        // Mock the repository to return the book
         when(bookRepository.findAll()).thenReturn(List.of(book));
 
-        // Call the method to generate the report
         List<String> report = bookService.generateAuthorReport();
 
-        // Assertions to validate the report
+       
         assertNotNull(report);
         assertEquals(1, report.size());
-        assertEquals("John Doe: 1 books", report.get(0)); 
+        assertEquals("Nikhitha: 1 books", report.get(0)); 
     }
 }

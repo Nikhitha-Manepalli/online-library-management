@@ -35,7 +35,7 @@ class AuthorServiceImplTest {
         MockitoAnnotations.openMocks(this);
         author = new Author();
         author.setId(1L);
-        author.setName("John Doe");
+        author.setName("Nikhitha");
     }
 
     @Test
@@ -45,7 +45,7 @@ class AuthorServiceImplTest {
         Author createdAuthor = authorService.createAuthor(author);
 
         assertNotNull(createdAuthor);
-        assertEquals("John Doe", createdAuthor.getName());
+        assertEquals("Nikhitha", createdAuthor.getName());
         verify(authorRepository, times(1)).save(author);
     }
 
@@ -69,7 +69,7 @@ class AuthorServiceImplTest {
 
         assertNotNull(authors);
         assertEquals(1, authors.size());
-        assertEquals("John Doe", authors.get(0).getName());
+        assertEquals("Nikhitha", authors.get(0).getName());
         verify(authorRepository, times(1)).findAll();
     }
 
@@ -80,7 +80,7 @@ class AuthorServiceImplTest {
         Author foundAuthor = authorService.getAuthorById(1L);
 
         assertNotNull(foundAuthor);
-        assertEquals("John Doe", foundAuthor.getName());
+        assertEquals("Nikhitha", foundAuthor.getName());
         verify(authorRepository, times(1)).findById(1L);
     }
 
@@ -99,7 +99,7 @@ class AuthorServiceImplTest {
     @Test
     void updateAuthor_ShouldReturnUpdatedAuthor_WhenExists() {
         Author updatedAuthor = new Author();
-        updatedAuthor.setName("Jane Doe");
+        updatedAuthor.setName("Nikhitha");
 
         when(authorRepository.findById(1L)).thenReturn(Optional.of(author));
         when(authorRepository.save(any(Author.class))).thenReturn(updatedAuthor);
@@ -107,7 +107,7 @@ class AuthorServiceImplTest {
         Author result = authorService.updateAuthor(1L, updatedAuthor);
 
         assertNotNull(result);
-        assertEquals("Jane Doe", result.getName());
+        assertEquals("Nikhitha", result.getName());
         verify(authorRepository, times(1)).findById(1L);
         verify(authorRepository, times(1)).save(any(Author.class));
     }
