@@ -5,7 +5,6 @@ import com.example.onlinelibrary.exception.DataIntegrityException;
 import com.example.onlinelibrary.exception.ResourceNotFoundException;
 import com.example.onlinelibrary.repository.AuthorRepository;
 import com.example.onlinelibrary.service.impl.AuthorServiceImpl;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -22,126 +21,126 @@ import static org.mockito.Mockito.*;
 
 class AuthorServiceImplTest {
 
-    @Mock
-    private AuthorRepository authorRepository;
+	@Mock
+	private AuthorRepository authorRepository;
 
-    @InjectMocks
-    private AuthorServiceImpl authorService;
+	@InjectMocks
+	private AuthorServiceImpl authorService;
 
-    private Author author;
+	private Author author;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-        author = new Author();
-        author.setId(1L);
-        author.setName("Nikhitha");
-    }
+	@BeforeEach
+	void setUp() {
+		MockitoAnnotations.openMocks(this);
+		author = new Author();
+		author.setId(1L);
+		author.setName("Nikhitha");
+	}
 
-    @Test
-    void createAuthor_ShouldReturnAuthor_WhenAuthorIsValid() {
-        when(authorRepository.save(any(Author.class))).thenReturn(author);
+	@Test
+	void createAuthor_ShouldReturnAuthor_WhenAuthorIsValid() {
+		when(authorRepository.save(any(Author.class))).thenReturn(author);
 
-        Author createdAuthor = authorService.createAuthor(author);
+		Author createdAuthor = authorService.createAuthor(author);
 
-        assertNotNull(createdAuthor);
-        assertEquals("Nikhitha", createdAuthor.getName());
-        verify(authorRepository, times(1)).save(author);
-    }
+		assertNotNull(createdAuthor);
+		assertEquals("Nikhitha", createdAuthor.getName());
+		verify(authorRepository, times(1)).save(author);
+	}
 
-    @Test
-    void createAuthor_ShouldThrowDataIntegrityException_WhenAuthorAlreadyExists() {
-        when(authorRepository.save(any(Author.class))).thenThrow(new DataIntegrityViolationException(""));
+	@Test
+	void createAuthor_ShouldThrowDataIntegrityException_WhenAuthorAlreadyExists() {
+		when(authorRepository.save(any(Author.class))).thenThrow(new DataIntegrityViolationException(""));
 
-        Exception exception = assertThrows(DataIntegrityException.class, () -> {
-            authorService.createAuthor(author);
-        });
+		Exception exception = assertThrows(DataIntegrityException.class, () -> {
+			authorService.createAuthor(author);
+		});
 
-        assertEquals("Author with this name already exists", exception.getMessage());
-        verify(authorRepository, times(1)).save(author);
-    }
+		assertEquals("Author with this name already exists", exception.getMessage());
+		verify(authorRepository, times(1)).save(author);
+	}
 
-    @Test
-    void getAllAuthors_ShouldReturnListOfAuthors() {
-        when(authorRepository.findAll()).thenReturn(List.of(author));
+	@Test
+	void getAllAuthors_ShouldReturnListOfAuthors() {
+		when(authorRepository.findAll()).thenReturn(List.of(author));
 
-        List<Author> authors = authorService.getAllAuthors();
+		List<Author> authors = authorService.getAllAuthors();
 
-        assertNotNull(authors);
-        assertEquals(1, authors.size());
-        assertEquals("Nikhitha", authors.get(0).getName());
-        verify(authorRepository, times(1)).findAll();
-    }
+		assertNotNull(authors);
+		assertEquals(1, authors.size());
+		assertEquals("Nikhitha", authors.get(0).getName());
+		verify(authorRepository, times(1)).findAll();
+	}
 
-    @Test
-    void getAuthorById_ShouldReturnAuthor_WhenExists() {
-        when(authorRepository.findById(1L)).thenReturn(Optional.of(author));
+	@Test
+	void getAuthorById_ShouldReturnAuthor_WhenExists() {
+		when(authorRepository.findById(1L)).thenReturn(Optional.of(author));
 
-        Author foundAuthor = authorService.getAuthorById(1L);
+		Author foundAuthor = authorService.getAuthorById(1L);
 
-        assertNotNull(foundAuthor);
-        assertEquals("Nikhitha", foundAuthor.getName());
-        verify(authorRepository, times(1)).findById(1L);
-    }
+		assertNotNull(foundAuthor);
+		assertEquals("Nikhitha", foundAuthor.getName());
+		verify(authorRepository, times(1)).findById(1L);
+	}
 
-    @Test
-    void getAuthorById_ShouldThrowResourceNotFoundException_WhenDoesNotExist() {
-        when(authorRepository.findById(1L)).thenReturn(Optional.empty());
+	@Test
+	void getAuthorById_ShouldThrowResourceNotFoundException_WhenDoesNotExist() {
+		when(authorRepository.findById(1L)).thenReturn(Optional.empty());
 
-        Exception exception = assertThrows(ResourceNotFoundException.class, () -> {
-            authorService.getAuthorById(1L);
-        });
+		Exception exception = assertThrows(ResourceNotFoundException.class, () -> {
+			authorService.getAuthorById(1L);
+		});
 
-        assertEquals("Author not found with id 1", exception.getMessage());
-        verify(authorRepository, times(1)).findById(1L);
-    }
+		assertEquals("Author not found with id 1", exception.getMessage());
+		verify(authorRepository, times(1)).findById(1L);
+	}
 
-    @Test
-    void updateAuthor_ShouldReturnUpdatedAuthor_WhenExists() {
-        Author updatedAuthor = new Author();
-        updatedAuthor.setName("Nikhitha");
+	@Test
+	void updateAuthor_ShouldReturnUpdatedAuthor_WhenExists() {
+		Author updatedAuthor = new Author();
+		updatedAuthor.setName("Nikhitha");
 
-        when(authorRepository.findById(1L)).thenReturn(Optional.of(author));
-        when(authorRepository.save(any(Author.class))).thenReturn(updatedAuthor);
+		when(authorRepository.findById(1L)).thenReturn(Optional.of(author));
+		when(authorRepository.save(any(Author.class))).thenReturn(updatedAuthor);
 
-        Author result = authorService.updateAuthor(1L, updatedAuthor);
+		Author result = authorService.updateAuthor(1L, updatedAuthor);
 
-        assertNotNull(result);
-        assertEquals("Nikhitha", result.getName());
-        verify(authorRepository, times(1)).findById(1L);
-        verify(authorRepository, times(1)).save(any(Author.class));
-    }
+		assertNotNull(result);
+		assertEquals("Nikhitha", result.getName());
+		verify(authorRepository, times(1)).findById(1L);
+		verify(authorRepository, times(1)).save(any(Author.class));
+	}
 
-    @Test
-    void updateAuthor_ShouldThrowResourceNotFoundException_WhenDoesNotExist() {
-        when(authorRepository.findById(1L)).thenReturn(Optional.empty());
+	@Test
+	void updateAuthor_ShouldThrowResourceNotFoundException_WhenDoesNotExist() {
+		when(authorRepository.findById(1L)).thenReturn(Optional.empty());
 
-        Exception exception = assertThrows(ResourceNotFoundException.class, () -> {
-            authorService.updateAuthor(1L, author);
-        });
+		Exception exception = assertThrows(ResourceNotFoundException.class, () -> {
+			authorService.updateAuthor(1L, author);
+		});
 
-        assertEquals("Author not found with id 1", exception.getMessage());
-        verify(authorRepository, times(1)).findById(1L);
-    }
+		assertEquals("Author not found with id 1", exception.getMessage());
+		verify(authorRepository, times(1)).findById(1L);
+	}
 
-    @Test
-    void deleteAuthor_ShouldDeleteAuthor_WhenExists() {
-        when(authorRepository.existsById(1L)).thenReturn(true);
+	@Test
+	void deleteAuthor_ShouldDeleteAuthor_WhenExists() {
+		when(authorRepository.existsById(1L)).thenReturn(true);
 
-        authorService.deleteAuthor(1L);
+		authorService.deleteAuthor(1L);
 
-        verify(authorRepository, times( 1)).deleteById(1L);
-    }
+		verify(authorRepository, times(1)).deleteById(1L);
+	}
 
-    @Test
-    void deleteAuthor_ShouldThrowResourceNotFoundException_WhenDoesNotExist() {
-        when(authorRepository.existsById(1L)).thenReturn(false);
+	@Test
+	void deleteAuthor_ShouldThrowResourceNotFoundException_WhenDoesNotExist() {
+		when(authorRepository.existsById(1L)).thenReturn(false);
 
-        Exception exception = assertThrows(ResourceNotFoundException.class, () -> {
-            authorService.deleteAuthor(1L);
-        });
+		Exception exception = assertThrows(ResourceNotFoundException.class, () -> {
+			authorService.deleteAuthor(1L);
+		});
 
-        assertEquals("Author not found with id 1", exception.getMessage());
-        verify(authorRepository, times(1)).existsById(1L);
-    }
+		assertEquals("Author not found with id 1", exception.getMessage());
+		verify(authorRepository, times(1)).existsById(1L);
+	}
 }

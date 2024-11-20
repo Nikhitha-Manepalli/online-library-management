@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Service
 public class BookServiceImpl implements BookService {
 
-    private final BookRepository bookRepository; // Changed to final
+    private final BookRepository bookRepository; 
 
     private static final String BOOK_NOT_FOUND_MESSAGE = "Book not found with id ";
     private static final String BOOK_TITLE_REQUIRED_MESSAGE = "Book title is required";
@@ -95,10 +95,10 @@ public class BookServiceImpl implements BookService {
             throw new InvalidDataException("Search term cannot be empty");
         }
         return bookRepository.findAll().stream()
-                .filter(book -> book.getTitle().toLowerCase().contains(searchTerm.toLowerCase()) ||
-                               book.getAuthor().getName().toLowerCase().contains(searchTerm.toLowerCase()) ||
-                               book.getPublisher().getName().toLowerCase().contains(searchTerm.toLowerCase()))
-                .toList(); 
+                .filter(book -> (book.getTitle() != null && book.getTitle().toLowerCase().contains(searchTerm.toLowerCase())) ||
+                                (book.getAuthor() != null && book.getAuthor().getName() != null && book.getAuthor().getName().toLowerCase().contains(searchTerm.toLowerCase())) ||
+                                (book.getPublisher() != null && book.getPublisher().getName() != null && book.getPublisher().getName().toLowerCase().contains(searchTerm.toLowerCase())))
+                .toList();
     }
 
     @Override

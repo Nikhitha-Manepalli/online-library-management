@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.dao.DataIntegrityViolationException;
 
@@ -235,4 +236,91 @@ class BookServiceImplTest {
         assertEquals(1, report.size());
         assertEquals("Nikhitha: 1 books", report.get(0)); 
     }
+ // Test for createBook when title is null or empty
+    @Test
+    void createBook_ShouldThrowInvalidDataException_WhenTitleIsNull() {
+        book.setTitle(null);
+        Exception exception = assertThrows(InvalidDataException.class, () -> bookService.createBook(book));
+        assertEquals("Book title is required", exception.getMessage());
+    }
+     
+    // Test for updateBook when the title is empty
+    @Test
+    void updateBook_ShouldThrowInvalidDataException_WhenTitleIsEmpty() {
+        book.setTitle("");
+        Exception exception = assertThrows(InvalidDataException.class, () -> bookService.updateBook(1L, book));
+        assertEquals("Book title is required", exception.getMessage());
+    }
+     
+    // Test for searchBooks when no books match the search term
+    @Test
+    void searchBooks_ShouldReturnEmptyList_WhenNoBooksMatch() {
+        when(bookRepository.findAll()).thenReturn(List.of(book));
+     
+        List<Book> result = bookService.searchBooks("Nonexistent Book");
+     
+        assertNotNull(result);
+        assertTrue(result.isEmpty(), "Expected no books to match the search term");
+    }
+    @Test
+
+    public void testCreateBook_Success() {
+
+        Book book = new Book();
+
+        book.setTitle("New Book");
+
+        Mockito.when(bookRepository.save(Mockito.any(Book.class))).thenReturn(book);
+     
+        Book createdBook = bookService.createBook(book);
+     
+        assertNotNull(createdBook);
+
+        assertEquals("New Book", createdBook.getTitle());
+
+    }
+
+     
+    @Test
+
+    public void testCreateBook_EmptyTitle_ThrowsInvalidDataException() {
+
+        Book book = new Book();
+
+        book.setTitle("");
+     
+        InvalidDataException exception = assertThrows(InvalidDataException.class, () -> {
+
+            bookService.createBook(book);
+
+        });
+     
+        assertEquals("Book title is required", exception.getMessage());
+
+    }
+
+     
+    @Test
+
+    public void testCreateBook_DuplicateTitle_ThrowsDataIntegrityException() {
+
+        Book book = new Book();
+
+        book.setTitle("Duplicate Title");
+     
+        Mockito.when(bookRepository.save(Mockito.any(Book.class)))
+
+               .thenThrow(new DataIntegrityViolationException("Duplicate"));
+     
+        DataIntegrityException exception = assertThrows(DataIntegrityException.class, () -> {
+
+            bookService.createBook(book);
+
+        });
+     
+        assertEquals("Book with this title already exists", exception.getMessage());
+
+    }
+
+     
 }

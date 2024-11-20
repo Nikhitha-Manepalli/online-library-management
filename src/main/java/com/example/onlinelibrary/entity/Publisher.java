@@ -13,13 +13,18 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
 
 
 
 @Entity
 @Table(name = "publishers")
-@Data
+@Getter
+@Setter
+//@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Publisher {
@@ -27,7 +32,7 @@ public class Publisher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
- 
+    
     private String name;
  
     @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
