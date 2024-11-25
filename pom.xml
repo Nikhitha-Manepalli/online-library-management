@@ -93,7 +93,17 @@
 					</excludes>
 				</configuration>
 			</plugin>
-			
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.7</version>
+				<configuration>
+					<excludes>
+						<exclude>
+							com/example/onlinelibrary/OnlineLibraryApplication</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
