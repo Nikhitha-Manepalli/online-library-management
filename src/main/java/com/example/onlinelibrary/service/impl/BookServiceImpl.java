@@ -74,7 +74,6 @@ public class BookServiceImpl implements BookService {
             throw new DataIntegrityException(BOOK_ALREADY_EXISTS_MESSAGE);
         }
     }
-
     @Transactional
     @Override
     public void deleteBook(Long id) {

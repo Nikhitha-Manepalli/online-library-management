@@ -1,8 +1,5 @@
 package com.example.onlinelibrary.entity;
  
-import java.util.HashSet;
-import java.util.Set;
- 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -16,6 +13,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+ 
+import java.util.HashSet;
+import java.util.Set;
  
 @Entity
 @Table(name = "authors")

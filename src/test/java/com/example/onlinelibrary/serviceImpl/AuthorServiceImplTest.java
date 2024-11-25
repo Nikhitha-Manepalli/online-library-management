@@ -122,6 +122,30 @@ class AuthorServiceImplTest {
 		assertEquals("Author not found with id 1", exception.getMessage());
 		verify(authorRepository, times(1)).findById(1L);
 	}
+	@Test
+	void updateAuthor_ShouldThrowDataIntegrityException_WhenAuthorAlreadyExists() {
+	    // Mocking repository behavior: find the existing author
+	    when(authorRepository.findById(1L)).thenReturn(Optional.of(author));
+	 
+	    // Simulate a DataIntegrityViolationException on save
+	    when(authorRepository.save(any(Author.class))).thenThrow(new DataIntegrityViolationException(""));
+	 
+	    // Prepare the new details for the author
+	    Author updatedAuthor = new Author();
+	    updatedAuthor.setName("Duplicate Name");
+	 
+	    // Assert that the service throws DataIntegrityException
+	    Exception exception = assertThrows(DataIntegrityException.class, () -> {
+	        authorService.updateAuthor(1L, updatedAuthor);
+	    });
+	 
+	    // Verify exception message
+	    assertEquals("Author with this name already exists", exception.getMessage());
+	 
+	    // Verify the repository calls
+	    verify(authorRepository, times(1)).findById(1L);
+	    verify(authorRepository, times(1)).save(any(Author.class));
+	}
 
 	@Test
 	void deleteAuthor_ShouldDeleteAuthor_WhenExists() {
@@ -143,4 +167,5 @@ class AuthorServiceImplTest {
 		assertEquals("Author not found with id 1", exception.getMessage());
 		verify(authorRepository, times(1)).existsById(1L);
 	}
+	
 }

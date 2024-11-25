@@ -1,7 +1,5 @@
 package com.example.onlinelibrary.entity;
  
-import java.util.Date;
- 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,6 +12,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+ 
+import java.util.Date;
  
 @Entity
 @Table(name = "books")
@@ -32,10 +32,12 @@ public class Book {
     private Date publicationDate;
  
     @ManyToOne
-    @JoinColumn(name = "author_id", nullable = false) 
+    @JoinColumn(name = "author_id", nullable = false)
     private Author author;
  
     @ManyToOne
-    @JoinColumn(name = "publisher_id", nullable = false) 
+    @JoinColumn(name = "publisher_id", nullable = false)
     private Publisher publisher;
+
+	 
 }
