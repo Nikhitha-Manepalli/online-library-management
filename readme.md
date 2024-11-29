@@ -18,7 +18,7 @@ To run the project locally, follow the steps below:
 - MySQL Database
 - IDE (e.g., IntelliJ IDEA, Eclipse)
  
-### Installation Steps
+### Installation Steps by nikki
 1. Clone the repository:
    ```bash
    git clone https://github.com/Nikhitha-Manepalli/online-library-management.git
